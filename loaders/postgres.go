@@ -10,7 +10,7 @@ import (
 
 	"github.com/kenshaw/snaker"
 
-	"github.com/xo/xo/internal"
+	"github.com/Code-Hex/xo/internal"
 	"github.com/xo/xo/models"
 )
 
