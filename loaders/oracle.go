@@ -11,7 +11,7 @@ import (
 	_ "github.com/godror/godror"
 
 	"github.com/Code-Hex/xo/internal"
-	"github.com/xo/xo/models"
+	"github.com/Code-Hex/xo/models"
 )
 
 func init() {

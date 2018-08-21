@@ -5,9 +5,9 @@ import (
 	"strings"
 	"text/template"
 
+	"github.com/Code-Hex/xo/models"
 	"github.com/Masterminds/sprig"
 	"github.com/kenshaw/snaker"
-	"github.com/xo/xo/models"
 )
 
 // NewTemplateFuncs returns a set of template funcs bound to the supplied args.
