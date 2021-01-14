@@ -307,6 +307,13 @@ func writeTypes(args *internal.ArgType) error {
 	// sort segments
 	sort.Sort(out)
 
+	defer func() {
+		for _, f := range files {
+			// close
+			f.Close()
+		}
+	}()
+
 	// loop, writing in order
 	for _, t := range out {
 		var f *os.File
@@ -352,6 +359,10 @@ func writeTypes(args *internal.ArgType) error {
 		if err != nil {
 			return err
 		}
+	}
+
+	if _, err := exec.LookPath("goimports"); err != nil {
+		return fmt.Errorf("need goimports command: %v", err)
 	}
 
 	// process written files with goimports
