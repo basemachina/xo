@@ -400,6 +400,7 @@ func (tl TypeLoader) LoadSets(args *ArgType) (map[string]*Set, error) {
 			Values:            []*SetValue{},
 			Set:               e,
 			ReverseConstNames: args.UseReversedEnumConstNames,
+			TableName:         SingularizeIdentifier(e.TableName),
 		}
 
 		err = tl.LoadSetValues(args, setTpl)

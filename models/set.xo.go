@@ -2,7 +2,8 @@ package models
 
 // Set represents a set.
 type Set struct {
-	SetName string // set_name
+	SetName   string // set_name
+	TableName string // table_name
 }
 
 // MySets runs a custom query, returning results as Set.
@@ -11,7 +12,7 @@ func MySets(db XODB, schema string) ([]*Set, error) {
 
 	// sql query
 	const sqlstr = `SELECT ` +
-		`DISTINCT column_name AS set_name ` +
+		`DISTINCT column_name AS set_name, table_name ` +
 		`FROM information_schema.columns ` +
 		`WHERE data_type = 'set' AND table_schema = ?`
 
@@ -29,7 +30,7 @@ func MySets(db XODB, schema string) ([]*Set, error) {
 		e := Set{}
 
 		// scan
-		err = q.Scan(&e.SetName)
+		err = q.Scan(&e.SetName, &e.TableName)
 		if err != nil {
 			return nil, err
 		}

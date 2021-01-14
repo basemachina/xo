@@ -115,6 +115,7 @@ type Set struct {
 	Set               *models.Set
 	Comment           string
 	ReverseConstNames bool
+	TableName         string
 }
 
 // Proc is a template item for a stored procedure.
