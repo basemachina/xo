@@ -185,7 +185,7 @@ ENDSQL
 # mysql enum list query
 $XOBIN $MYDB -a -N -M -B -T Enum -F MyEnums -o $DEST $EXTRA << ENDSQL
 SELECT
-  DISTINCT column_name AS enum_name
+  DISTINCT column_name AS enum_name, table_name
 FROM information_schema.columns
 WHERE data_type = 'enum' AND table_schema = %%schema string%%
 ENDSQL

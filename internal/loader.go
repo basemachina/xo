@@ -323,6 +323,7 @@ func (tl TypeLoader) LoadEnums(args *ArgType) (map[string]*Enum, error) {
 			Values:            []*EnumValue{},
 			Enum:              e,
 			ReverseConstNames: args.UseReversedEnumConstNames,
+			TableName:         SingularizeIdentifier(e.TableName),
 		}
 
 		err = tl.LoadEnumValues(args, enumTpl)

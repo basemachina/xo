@@ -104,6 +104,7 @@ type Enum struct {
 	Enum              *models.Enum
 	Comment           string
 	ReverseConstNames bool
+	TableName         string
 }
 
 // Set is a template item for a set.
