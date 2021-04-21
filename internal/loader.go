@@ -49,7 +49,7 @@ type TypeLoader struct {
 	Esc             map[EscType]func(string) string
 	ProcessRelkind  func(RelType) string
 	Schema          func(*ArgType) (string, error)
-	ParseType       func(*ArgType, string, bool) (int, string, string)
+	ParseType       func(*ArgType, string, string, bool) (int, string, string)
 	EnumList        func(models.XODB, string) ([]*models.Enum, error)
 	EnumValueList   func(models.XODB, string, string) ([]*models.EnumValue, error)
 	SetList         func(models.XODB, string) ([]*models.Set, error)
@@ -171,7 +171,7 @@ func (tl TypeLoader) ParseQuery(args *ArgType) error {
 				Name: snaker.SnakeToCamelIdentifier(c.ColumnName),
 				Col:  c,
 			}
-			f.Len, f.NilType, f.Type = tl.ParseType(args, c.DataType, args.QueryAllowNulls && !c.NotNull)
+			f.Len, f.NilType, f.Type = tl.ParseType(args, typeTpl.Table.TableName, c.DataType, args.QueryAllowNulls && !c.NotNull)
 			typeTpl.Fields = append(typeTpl.Fields, f)
 		}
 	} else {
@@ -318,7 +318,7 @@ func (tl TypeLoader) LoadEnums(args *ArgType) (map[string]*Enum, error) {
 	enumMap := map[string]*Enum{}
 	for _, e := range enumList {
 		enumTpl := &Enum{
-			Name:              SingularizeIdentifier(e.EnumName),
+			Name:              SingularizeIdentifier(e.TableName) + SingularizeIdentifier(e.EnumName),
 			Schema:            args.Schema,
 			Values:            []*EnumValue{},
 			Enum:              e,
@@ -488,7 +488,7 @@ func (tl TypeLoader) LoadProcs(args *ArgType) (map[string]*Proc, error) {
 
 		// parse return type into template
 		// TODO: fix this so that nullable types can be returned
-		_, procTpl.Return.NilType, procTpl.Return.Type = tl.ParseType(args, p.ReturnType, false)
+		_, procTpl.Return.NilType, procTpl.Return.Type = tl.ParseType(args, "", p.ReturnType, false)
 
 		// load proc parameters
 		err = tl.LoadProcParams(args, procTpl)
@@ -528,7 +528,7 @@ func (tl TypeLoader) LoadProcParams(args *ArgType, procTpl *Proc) error {
 		}
 
 		// TODO: fix this so that nullable types can be used as parameters
-		_, _, paramTpl.Type = tl.ParseType(args, strings.TrimSpace(p.ParamType), false)
+		_, _, paramTpl.Type = tl.ParseType(args, "", strings.TrimSpace(p.ParamType), false)
 
 		// add to proc params
 		if procTpl.ProcParams != "" {
@@ -619,7 +619,7 @@ func (tl TypeLoader) LoadColumns(args *ArgType, typeTpl *Type) error {
 			Name: snaker.SnakeToCamelIdentifier(c.ColumnName),
 			Col:  c,
 		}
-		f.Len, f.NilType, f.Type = tl.ParseType(args, c.DataType, !c.NotNull)
+		f.Len, f.NilType, f.Type = tl.ParseType(args, typeTpl.Table.TableName, c.DataType, !c.NotNull)
 
 		// set primary key
 		if c.IsPrimaryKey {
