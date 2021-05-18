@@ -51,7 +51,7 @@ type TypeLoader struct {
 	Schema          func(*ArgType) (string, error)
 	ParseType       func(*ArgType, string, string, bool) (int, string, string)
 	EnumList        func(models.XODB, string) ([]*models.Enum, error)
-	EnumValueList   func(models.XODB, string, string) ([]*models.EnumValue, error)
+	EnumValueList   func(models.XODB, string, string, string) ([]*models.EnumValue, error)
 	SetList         func(models.XODB, string) ([]*models.Set, error)
 	SetValueList    func(models.XODB, string, string) ([]*models.SetValue, error)
 	ProcList        func(models.XODB, string) ([]*models.Proc, error)
@@ -351,7 +351,7 @@ func (tl TypeLoader) LoadEnumValues(args *ArgType, enumTpl *Enum) error {
 	var err error
 
 	// load enum values
-	enumValues, err := tl.EnumValueList(args.DB, args.Schema, enumTpl.Enum.EnumName)
+	enumValues, err := tl.EnumValueList(args.DB, args.Schema, enumTpl.Enum.EnumName, enumTpl.Enum.TableName)
 	if err != nil {
 		return err
 	}
