@@ -26,6 +26,7 @@ func (a *ArgType) NewTemplateFuncs() template.FuncMap {
 		"fieldToLowerNames":  a.fieldToLowerNames,
 		"fieldgetternames":   a.fieldgetternames,
 		"fieldnamesmulti":    a.fieldnamesmulti,
+		"goparam":            a.goparam,
 		"goparamlist":        a.goparamlist,
 		"reniltype":          a.reniltype,
 		"retype":             a.retype,
@@ -552,6 +553,19 @@ var goReservedNames = map[string]string{
 	"complex128": "c128",
 }
 
+func (a *ArgType) goparam(f *Field) string {
+	if len(f.Name) == 0 {
+		return ""
+	}
+	n := strings.Split(snaker.CamelToSnake(f.Name), "_")
+	s := strings.ToLower(n[0]) + f.Name[len(n[0]):]
+	// check go reserved names
+	if r, ok := goReservedNames[strings.ToLower(s)]; ok {
+		s = r
+	}
+	return s
+}
+
 // goparamlist converts a list of fields into their named Go parameters,
 // skipping any Field with Name contained in ignoreNames. addType will cause
 // the go Type to be added after each variable name. addPrefix will cause the
@@ -577,15 +591,9 @@ func (a *ArgType) goparamlist(fields []*Field, addPrefix bool, addType bool, ign
 			continue
 		}
 
-		s := "v" + strconv.Itoa(i)
-		if len(f.Name) > 0 {
-			n := strings.Split(snaker.CamelToSnake(f.Name), "_")
-			s = strings.ToLower(n[0]) + f.Name[len(n[0]):]
-		}
-
-		// check go reserved names
-		if r, ok := goReservedNames[strings.ToLower(s)]; ok {
-			s = r
+		s := a.goparam(f)
+		if s == "" {
+			s = "v" + strconv.Itoa(i)
 		}
 
 		// add the go type
