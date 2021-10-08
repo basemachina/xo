@@ -16,6 +16,7 @@ func (a *ArgType) NewTemplateFuncs() template.FuncMap {
 	tmp := template.FuncMap{
 		"colcount":           a.colcount,
 		"colnames":           a.colnames,
+		"sqlxcolnames":       a.sqlxcolnames,
 		"colnamesmulti":      a.colnamesmulti,
 		"colnamesquery":      a.colnamesquery,
 		"colnamesquerymulti": a.colnamesquerymulti,
@@ -283,6 +284,34 @@ func (a *ArgType) colnamesquerymulti(fields []*Field, sep string, startCount int
 			str = str + sep
 		}
 		str = str + a.colname(f.Col) + " = " + a.Loader.NthParam(i)
+		i++
+	}
+
+	return str
+}
+
+// sqlxcolnames creates a list of the column names found in fields with the
+// ":" prefix, excluding any Field with Name contained in ignoreNames.
+//
+// Used to present a comma separated list of column names with a prefix. Used in
+// a SELECT, or UPDATE (ie, ":field_1, :field_2, :field_3, ...").
+func (a *ArgType) sqlxcolnames(fields []*Field, ignoreNames ...string) string {
+	ignore := map[string]bool{}
+	for _, n := range ignoreNames {
+		ignore[n] = true
+	}
+
+	str := ""
+	i := 0
+	for _, f := range fields {
+		if ignore[f.Name] {
+			continue
+		}
+
+		if i != 0 {
+			str = str + ", "
+		}
+		str = str + ":" + a.colname(f.Col)
 		i++
 	}
 
