@@ -431,6 +431,9 @@ func (a *ArgType) fieldnames(fields []*Field, prefix string, ignoreNames ...stri
 	return str
 }
 
+// fieldsnamelist converts list of Field to list of field name strings.
+// This method excludes any Field with Name contained in ignoreNames.
+// (ie, []string{"Field1", "Field2", "Field3", ...})
 func (a *ArgType) fieldsnamelist(fields []*Field, ignoreNames ...string) []string {
 	ignore := map[string]bool{}
 	for _, n := range ignoreNames {
