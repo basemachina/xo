@@ -16,11 +16,11 @@ import (
 
 	"github.com/alexflint/go-arg"
 
-	"github.com/Code-Hex/xo/internal"
-	"github.com/Code-Hex/xo/models"
+	"github.com/basemachina/xo/internal"
+	"github.com/basemachina/xo/models"
 	"github.com/xo/dburl"
 
-	_ "github.com/Code-Hex/xo/loaders"
+	_ "github.com/basemachina/xo/loaders"
 	_ "github.com/xo/xoutil"
 )
 

@@ -5,8 +5,8 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/Code-Hex/xo/models"
 	"github.com/Masterminds/sprig"
+	"github.com/basemachina/xo/models"
 	"github.com/kenshaw/snaker"
 )
 

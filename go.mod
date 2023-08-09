@@ -1,4 +1,4 @@
-module github.com/Code-Hex/xo
+module github.com/basemachina/xo
 
 require (
 	github.com/Masterminds/goutils v1.1.0 // indirect

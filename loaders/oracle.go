@@ -1,3 +1,4 @@
+//go:build oracle
 // +build oracle
 
 package loaders
@@ -10,8 +11,8 @@ import (
 
 	_ "github.com/godror/godror"
 
-	"github.com/Code-Hex/xo/internal"
-	"github.com/Code-Hex/xo/models"
+	"github.com/basemachina/xo/internal"
+	"github.com/basemachina/xo/models"
 )
 
 func init() {

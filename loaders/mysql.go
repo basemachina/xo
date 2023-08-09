@@ -7,8 +7,8 @@ import (
 
 	"github.com/kenshaw/snaker"
 
-	"github.com/Code-Hex/xo/internal"
-	"github.com/Code-Hex/xo/models"
+	"github.com/basemachina/xo/internal"
+	"github.com/basemachina/xo/models"
 )
 
 func init() {

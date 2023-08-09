@@ -3,8 +3,8 @@ package loaders_test
 import (
 	"testing"
 
-	"github.com/Code-Hex/xo/internal"
-	"github.com/Code-Hex/xo/loaders"
+	"github.com/basemachina/xo/internal"
+	"github.com/basemachina/xo/loaders"
 )
 
 func Test_MyParseType(t *testing.T) {

@@ -1,6 +1,6 @@
 package internal
 
-import "github.com/Code-Hex/xo/models"
+import "github.com/basemachina/xo/models"
 
 // TemplateType represents a template type.
 type TemplateType uint
