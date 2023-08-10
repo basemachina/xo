@@ -7,6 +7,7 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/basemachina/xo/models"
+	"github.com/gedex/inflector"
 	"github.com/kenshaw/snaker"
 )
 
@@ -39,6 +40,8 @@ func (a *ArgType) NewTemplateFuncs() template.FuncMap {
 		"hascolumn":          a.hascolumn,
 		"hasfield":           a.hasfield,
 		"getstartcount":      a.getstartcount,
+		"pluralize":          a.pluralize,
+		"singularize":        a.singularize,
 	}
 	for k, v := range tmp {
 		fkmap[k] = v
@@ -750,4 +753,14 @@ func (a *ArgType) hasfield(fields []*Field, name string) bool {
 // getstartcount returns a starting count for numbering columsn in queries
 func (a *ArgType) getstartcount(fields []*Field, pkFields []*Field) int {
 	return len(fields) - len(pkFields)
+}
+
+// pluralize returns string s in plural form.
+func (a *ArgType) pluralize(s string) string {
+	return inflector.Pluralize(s)
+}
+
+// singularize returns string s in singular form.
+func (a *ArgType) singularize(s string) string {
+	return inflector.Singularize(s)
 }
